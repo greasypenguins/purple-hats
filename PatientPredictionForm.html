@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Hack K-State Patient Readmission Predictor</title>
+</head>
+
+<body>
+<form method="post" action="cgi-bin/predict.sh">
+Race:
+<select name="race">
+	<option value="Caucasian">Caucasian</option>
+    <option value="Asian">Asian</option>
+    <option value="African American">African American</option>
+    <option value="Hispanic">Hispanic</option>
+    <option value="other">other</option>
+</select>
+<br />
+Gender:
+<select name="gender">
+	<option value="male">male</option>
+    <option value="female">female</option>
+    <option value="unknown/invalid">unknown/invalid</option>
+</select>
+<br />
+Age:
+<select name="age">
+	<option value="[0-10)">[0-10)</option>
+    <option value="[10-20)">[10-20)</option>
+    <option value="[20-30)">[20-30)</option>
+    <option value="[30-40)">[30-40)</option>
+    <option value="[40-50)">[40-50)</option>
+    <option value="[50-60)">[50-60)</option>
+    <option value="[60-70)">[60-70)</option>
+    <option value="[70-80)">[70-80)</option>
+    <option value="[80-90)">[80-90)</option>
+    <option value="[90-100)">[90-100)</option>
+</select>
+<br />
+Weight:
+<select name="weight">
+	<option value="[0-25)">[0-25)</option>
+    <option value="[25-50)">[25-50)</option>
+    <option value="[50-75)">[50-75)</option>
+    <option value="[75-100)">[75-100))</option>
+    <option value="[100-125)">[100-125)</option>
+    <option value="[125-150)">[125-150)</option>
+    <option value="[150-175)">[150-175)</option>
+    <option value="[175-200)">[175-200)</option>
+</select>
+<br />
+Admission:
+<select name="admission_type_id">
+	<option value="1">Emergency</option>
+    <option value="2">Urgent</option>
+    <option value="3">Elective</option>
+    <option value="4">Newborn</option>
+    <option value="5">Not Available</option>
+    <option value="6">NULL</option>
+    <option value="7">Trauma Center</option>
+    <option value="8">Not Mapped</option>
+</select>
+
+<br />
+Discharge:
+<select name="discharge_disposition_id">
+	<option value="1">Discharged to home</option>
+    <option value="2">Discharged/transferred to another short term hospital</option>
+    <option value="3">Discharged/transferred to SNF</option>
+    <option value="4">Discharged/transferred to ICF</option>
+    <option value="5">Discharged/transferred to another type of inpatient care </option>
+    <option value="6">Discharged/transferred to home with home health service</option>
+    <option value="7">Left AMA</option>
+    <option value="8">Discharged/transferred to home under care of Home IV provider</option>
+    <option value="9">Admitted as an inpatient to this hospital</option>
+    <option value="10">Neonate discharged to another hospital for neonatal aftercare</option>
+    <option value="11">Expired</option>
+    <option value="12">Still patient or expected to return for outpatient services</option>
+    <option value="13">Hospice / home</option>
+    <option value="14">Hospice / medical facility</option>
+    <option value="15">Discharged/transferred within this institution to Medicare approved swing bed</option>
+    <option value="16">Discharged/transferred/referred another institution for outpatient services</option>
+    <option value="17">Discharged/transferred/referred to this institution for outpatient services</option>
+    <option value="18">NULL</option>
+    <option value="19">Expired at home. Medicaid only, hospice.</option>
+    <option value="20">Expired in a medical facility. Medicaid only, hospice.</option>
+    <option value="21">Expired, place unknown. Medicaid only, hospice.</option>
+    <option value="22">Discharged/transferred to another rehab fac including rehab units of a hospital .</option>
+    <option value="23">Discharged/transferred to a long term care hospital.</option>
+    <option value="24">Discharged/transferred to a nursing facility certified under </option>
+    <option value="25">Not Mapped</option>
+    <option value="26">Unknown/Invalid</option>
+    <option value="27">Discharged/transferred to a federal health care facility.</option>
+    <option value="28">Discharged/transferred/referred to a psychiatric hospital of psychiatric distinct part unit of a hospital</option>
+    <option value="29">Discharged/transferred to a Critical Access Hospital (CAH).</option>
+    <option value="30">Discharged/transferred to another Type of Health Care Institution not Defined Elsewhere</option>
+</select>
+
+<br />
+Admission Source:
+<select name="admission_source_id">
+	<option value="1">Physician Referral</option>
+    <option value="2">Clinic Referral</option>
+    <option value="3">HMO Referral</option>
+    <option value="4">Transfer from a hospital</option>
+    <option value="5">Transfer from a Skilled Nursing Facility (SNF)</option>
+    <option value="6">Transfer from another health care facility</option>
+    <option value="7">Emergency Room</option>
+    <option value="8">Court/Law Enforcement</option>
+    <option value="9">Not Available</option>
+    <option value="10">Transfer from critial access hospital</option>
+    <option value="11">Normal Delivery</option>
+    <option value="12">Premature Delivery</option>
+    <option value="13">Sick Baby</option>
+    <option value="14">Extramural Birth</option>
+    <option value="15">Not Available</option>
+    <option value="17">NULL</option>
+    <option value="18">Transfer From Another Home Health Agency</option>
+    <option value="19">Readmission to Same Home Health Agency</option>
+    <option value="20">Not Mapped</option>
+    <option value="21">Unknown/Invalid</option>
+    <option value="22">Transfer from hospital inpt/same fac reslt in a sep claim</option>
+    <option value="23">Born inside this hospital</option>
+    <option value="24">Born outside this hospital</option>
+    <option value="25">Transfer from Ambulatory Surgery Center</option>
+    <option value="26">Transfer from Hospice</option>
+</select>
+
+<br />
+Time in hospital (in days):
+<input name="time_in_hospital" type="text"/>
+
+<br />
+Payer Code:
+<input name="payer_code" type="text"/>
+
+<br />
+Medical Specialty:
+<input name="medical_specialty" type="text"/>
+
+<br />
+Number of lab procedures:
+<input name="num_lab_procedures" type="text"/>
+
+<br />
+Number of procedures:
+<input name="num_procedures" type="text"/>
+
+<br />
+Number of medications:
+<input name="num_medications" type="text"/>
+
+<br />
+Number of outpatient visits:
+<input name="number_outpatient" type="text"/>
+
+<br />
+Number of emergency visits:
+<input name="number_emergency" type="text"/>
+
+<br />
+Number of inpatient visits:
+<input name="number_inpatient" type="text"/>
+
+<br />
+Diagnosis 1:
+<input name="diag_1" type="text"/>
+
+<br />
+Diagnosis 2:
+<input name="diag_2" type="text"/>
+
+<br />
+Diagnosis 3:
+<input name="diag_3" type="text"/>
+
+<br />
+Number of Diagnoses:
+<input name="number_diagnoses" type="text"/>
+
+<br />
+Glucose serum test result:
+<select name="max_glu_serum">
+	<option value=">300">>200</option>
+    <option value=">200">>300</option>
+    <option value="Norm">Normal</option>
+    <option value="None">None</option>
+</select>
+
+<br />
+A1c test result:
+<select name="A1Cresult">
+	<option value=">7">>7</option>
+    <option value=">8">>8</option>
+    <option value="Norm">Normal</option>
+    <option value="None">None</option>
+</select>
+
+<br />
+metformin:
+<fieldset id="metformin">
+	No<input type="radio" value="No" name="metformin" />
+    Up<input type="radio" value="Up" name="metformin" />
+    Steady<input type="radio" value="Steady" name="metformin" />
+    Down<input type="radio" value="Down" name="metformin" />
+</fieldset>
+
+<br />
+repaglinide:
+<fieldset id="repaglinide">
+	No<input type="radio" value="No" name="repaglinide" />
+    Up<input type="radio" value="Up" name="repaglinide" />
+    Steady<input type="radio" value="Steady" name="repaglinide" />
+    Down<input type="radio" value="Down" name="repaglinide" />
+</fieldset>
+
+<br />
+nateglinide:
+<fieldset id="nateglinide">
+	No<input type="radio" value="No" name="nateglinide" />
+    Up<input type="radio" value="Up" name="nateglinide" />
+    Steady<input type="radio" value="Steady" name="nateglinide" />
+    Down<input type="radio" value="Down" name="nateglinide" />
+</fieldset>
+
+<br />
+chlorpropamide:
+<fieldset id="chlorpropamide">
+	No<input type="radio" value="No" name="chlorpropamide" />
+    Up<input type="radio" value="Up" name="chlorpropamide" />
+    Steady<input type="radio" value="Steady" name="chlorpropamide" />
+    Down<input type="radio" value="Down" name="chlorpropamide" />
+</fieldset>
+
+<br />
+glimepiride:
+<fieldset id="glimepiride">
+	No<input type="radio" value="No" name="glimepiride" />
+    Up<input type="radio" value="Up" name="glimepiride" />
+    Steady<input type="radio" value="Steady" name="glimepiride" />
+    Down<input type="radio" value="Down" name="glimepiride" />
+</fieldset>
+
+<br />
+acetohexamide:
+<fieldset id="acetohexamide">
+	No<input type="radio" value="No" name="acetohexamide" />
+    Up<input type="radio" value="Up" name="acetohexamide" />
+    Steady<input type="radio" value="Steady" name="acetohexamide" />
+    Down<input type="radio" value="Down" name="acetohexamide" />
+</fieldset>
+
+<br />
+glipizide:
+<fieldset id="glipizide">
+	No<input type="radio" value="No" name="glipizide" />
+    Up<input type="radio" value="Up" name="glipizide" />
+    Steady<input type="radio" value="Steady" name="glipizide" />
+    Down<input type="radio" value="Down" name="glipizide" />
+</fieldset>
+
+<br />
+glyburide:
+<fieldset id="glyburide">
+	No<input type="radio" value="No" name="glyburide" />
+    Up<input type="radio" value="Up" name="glyburide" />
+    Steady<input type="radio" value="Steady" name="glyburide" />
+    Down<input type="radio" value="Down" name="glyburide" />
+</fieldset>
+
+<br />
+tolbutamide:
+<fieldset id="tolbutamide">
+	No<input type="radio" value="No" name="tolbutamide" />
+    Up<input type="radio" value="Up" name="tolbutamide" />
+    Steady<input type="radio" value="Steady" name="tolbutamide" />
+    Down<input type="radio" value="Down" name="tolbutamide" />
+</fieldset>
+
+<br />
+pioglitazone:
+<fieldset id="pioglitazone">
+	No<input type="radio" value="No" name="pioglitazone" />
+    Up<input type="radio" value="Up" name="pioglitazone" />
+    Steady<input type="radio" value="Steady" name="pioglitazone" />
+    Down<input type="radio" value="Down" name="pioglitazone" />
+</fieldset>
+
+<br />
+rosiglitazone:
+<fieldset id="rosiglitazone">
+	No<input type="radio" value="No" name="rosiglitazone" />
+    Up<input type="radio" value="Up" name="rosiglitazone" />
+    Steady<input type="radio" value="Steady" name="rosiglitazone" />
+    Down<input type="radio" value="Down" name="rosiglitazone" />
+</fieldset>
+
+<br />
+acarbose:
+<fieldset id="acarbose">
+	No<input type="radio" value="No" name="acarbose" />
+    Up<input type="radio" value="Up" name="acarbose" />
+    Steady<input type="radio" value="Steady" name="acarbose" />
+    Down<input type="radio" value="Down" name="acarbose" />
+</fieldset>
+
+<br />
+miglitol:
+<fieldset id="miglitol">
+	No<input type="radio" value="No" name="miglitol" />
+    Up<input type="radio" value="Up" name="miglitol" />
+    Steady<input type="radio" value="Steady" name="miglitol" />
+    Down<input type="radio" value="Down" name="miglitol" />
+</fieldset>
+
+<br />
+troglitazone:
+<fieldset id="troglitazone">
+	No<input type="radio" value="No" name="troglitazone" />
+    Up<input type="radio" value="Up" name="troglitazone" />
+    Steady<input type="radio" value="Steady" name="troglitazone" />
+    Down<input type="radio" value="Down" name="troglitazone" />
+</fieldset>
+
+<br />
+tolazamide:
+<fieldset id="tolazamide">
+	No<input type="radio" value="No" name="tolazamide" />
+    Up<input type="radio" value="Up" name="tolazamide" />
+    Steady<input type="radio" value="Steady" name="tolazamide" />
+    Down<input type="radio" value="Down" name="tolazamide" />
+</fieldset>
+
+<br />
+examide:
+<fieldset id="examide">
+	No<input type="radio" value="No" name="examide" />
+    Up<input type="radio" value="Up" name="examide" />
+    Steady<input type="radio" value="Steady" name="examide" />
+    Down<input type="radio" value="Down" name="examide" />
+</fieldset>
+
+<br />
+citoglipton:
+<fieldset id="citoglipton">
+	No<input type="radio" value="No" name="citoglipton" />
+    Up<input type="radio" value="Up" name="citoglipton" />
+    Steady<input type="radio" value="Steady" name="citoglipton" />
+    Down<input type="radio" value="Down" name="citoglipton" />
+</fieldset>
+
+<br />
+insulin:
+<fieldset id="insulin">
+	No<input type="radio" value="No" name="insulin" />
+    Up<input type="radio" value="Up" name="insulin" />
+    Steady<input type="radio" value="Steady" name="insulin" />
+    Down<input type="radio" value="Down" name="insulin" />
+</fieldset>
+
+<br />
+glyburide.metformin:
+<fieldset id="glyburide.metformin">
+	No<input type="radio" value="No" name="glyburide.metformin" />
+    Up<input type="radio" value="Up" name="glyburide.metformin" />
+    Steady<input type="radio" value="Steady" name="glyburide.metformin" />
+    Down<input type="radio" value="Down" name="glyburide.metformin" />
+</fieldset>
+
+<br />
+glipizide.metformin:
+<fieldset id="glipizide.metformin">
+	No<input type="radio" value="No" name="glipizide.metformin" />
+    Up<input type="radio" value="Up" name="glipizide.metformin" />
+    Steady<input type="radio" value="Steady" name="glipizide.metformin" />
+    Down<input type="radio" value="Down" name="glipizide.metformin" />
+</fieldset>
+
+<br />
+glimepiride.pioglitazone:
+<fieldset id="glimepiride.pioglitazone">
+	No<input type="radio" value="No" name="glimepiride.pioglitazone" />
+    Up<input type="radio" value="Up" name="glimepiride.pioglitazone" />
+    Steady<input type="radio" value="Steady" name="glimepiride.pioglitazone" />
+    Down<input type="radio" value="Down" name="glimepiride.pioglitazone" />
+</fieldset>
+
+<br />
+glimepiride.pioglitazone:
+<fieldset id="metformin.rosiglitazone">
+	No<input type="radio" value="No" name="metformin.rosiglitazone" />
+    Up<input type="radio" value="Up" name="metformin.rosiglitazone" />
+    Steady<input type="radio" value="Steady" name="metformin.rosiglitazone" />
+    Down<input type="radio" value="Down" name="metformin.rosiglitazone" />
+</fieldset>
+
+<br />
+metformin.pioglitazone:
+<fieldset id="metformin.pioglitazone">
+	No<input type="radio" value="No" name="metformin.pioglitazone" />
+    Up<input type="radio" value="Up" name="metformin.pioglitazone" />
+    Steady<input type="radio" value="Steady" name="metformin.pioglitazone" />
+    Down<input type="radio" value="Down" name="metformin.pioglitazone" />
+</fieldset>
+
+<br />
+Ghange of diabetic medication:
+<fieldset id="change">
+	Change<input type="radio" value="Ch" name="change" />
+    No Change<input type="radio" value="No" name="change" />
+</fieldset>
+
+<br />
+Diabetic medication prescribed:
+<fieldset id="change">
+	Yes<input type="radio" value="Yes" name="change" />
+    No<input type="radio" value="No" name="change" />
+</fieldset>
+
+<br />
+<input name="submit" type="submit" value="submit" />
+</form>
+
+</body>
+</html>
