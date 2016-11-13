@@ -24,10 +24,14 @@ input_list.insert(0, 1)
 input_list.append("<30")
 
 if len(input_list) != 50:
-    raise Exception("xxxxxxxxxxIncorrect number of arguments!")
+    raise Exception("xxxxxxxxxxIncorrect number of inputs!")
 
 try:
     input_list[4] = input_list[4] + ")"
+
+    if input_list[5] != "?":
+        input_list[5] = input_list[5] + ")"
+
     input_list[6] = int(input_list[6])
     input_list[7] = int(input_list[7])
     input_list[8] = int(input_list[8])
