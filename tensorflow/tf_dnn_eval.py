@@ -5,9 +5,68 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import sys
 import tensorflow as tf
 import pandas as pd
 import numpy as np
+
+def makeitglobal():
+    global input_list
+
+makeitglobal()
+
+input_list = sys.argv
+print(input_list)
+
+del input_list[0]
+input_list.insert(0, 1)
+input_list.insert(0, 1)
+input_list.append("<30")
+
+if len(input_list) != 50:
+    raise Exception("xxxxxxxxxxIncorrect number of arguments!")
+
+try:
+    input_list[4] = input_list[4] + ")"
+    input_list[6] = int(input_list[6])
+    input_list[7] = int(input_list[7])
+    input_list[8] = int(input_list[8])
+    input_list[9] = int(input_list[9])
+
+    input_list[12] = int(input_list[12])
+    input_list[13] = int(input_list[13])
+    input_list[14] = int(input_list[14])
+    input_list[15] = int(input_list[15])
+    input_list[16] = int(input_list[16])
+    input_list[17] = int(input_list[17])
+
+
+    input_list[18] = str(input_list[18])
+    input_list[19] = str(input_list[19])
+    input_list[20] = str(input_list[20])
+
+    input_list[21] = int(input_list[21])
+
+except:
+    raise Exception("xxxxxxxxxxCannot format inputs!")
+
+
+
+
+print(input_list)
+print(input_list[0])
+print(input_list[1])
+print(input_list[2])
+print(input_list[3])
+print(input_list[4])
+print(input_list[5])
+print("Formatted list:")
+print(input_list)
+
+
+
+print(input_list)
+print("yolo")
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -23,6 +82,14 @@ flags.DEFINE_string("test_data", "", "Path to the test data.")
 
 #Define columns
 COLUMNS = ["encounter_id", "patient_nbr", "race", "gender", "age", "weight", "admission_type_id", "discharge_disposition_id", "admission_source_id", "time_in_hospital", "payer_code", "medical_specialty", "num_lab_procedures", "num_procedures", "num_medications", "number_outpatient", "number_emergency", "number_inpatient", "diag_1", "diag_2", "diag_3", "number_diagnoses", "max_glu_serum", "A1Cresult", "metformin", "repaglinide", "nateglinide", "chlorpropamide", "glimepiride", "acetohexamide", "glipizide", "glyburide", "tolbutamide", "pioglitazone", "rosiglitazone", "acarbose", "miglitol", "troglitazone", "tolazamide", "examide", "citoglipton", "insulin", "glyburidemetformin", "glipizidemetformin", "glimepiridepioglitazone", "metforminrosiglitazone", "metforminpioglitazone", "change", "diabetesMed", "readmitted"]
+
+data = [[input_list[h] for h in range(0,50)]]
+
+input_list = data
+print(input_list)
+df_test = pd.DataFrame(input_list, columns = COLUMNS)
+print(df_test)
+# df_test = df_test.append(input_list, ignore_index = True)
 
 LABEL_COLUMN = "label"
 
@@ -155,13 +222,13 @@ def input_fn(df): #from tensorflow.org tutorial
     label = tf.constant(df[LABEL_COLUMN].values)
     # Returns the feature columns and the label.
 
-
-
     return feature_cols, label
 
 def train_and_evaluate(): #Train model then evaluate model
-    df_test = pd.DataFrame([[22915332, 2345234, "Caucasian", "Female", "[80-90)", "?", 3, 1, 4, 5, "?", "?", 39, 3, 11, 0, 0, 0, "414", "289", "593", 7, "None", "None", "No", "No", "No", "No", "No", "No", "No", "Steady", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes", ">30"]], columns = COLUMNS)
-
+    #df_test = pd.DataFrame([[22915332, 2345234, "Caucasian", "Female", "[80-90)", "?", 3, 1, 4, 5, "?", "?", 39, 3, 11, 0, 0, 0, "414", "289", "593", 7, "None", "None", "No", "No", "No", "No", "No", "No", "No", "Steady", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes", ">30"]], columns = COLUMNS)
+    #input_list = [[22915332, 2345234, "Caucasian", "Female", "[80-90)", "?", 3, 1, 4, 5, "?", "?", 39, 3, 11, 0, 0, 0, "414", "289", "593", 7, "None", "None", "No", "No", "No", "No", "No", "No", "No", "Steady", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes", ">30"]]
+    #df_test = pd.DataFrame(data=input_list, columns = COLUMNS)
+    global df_test
     # remove NaN elements
     df_test = df_test.dropna(how='any', axis=0)
 
@@ -169,14 +236,16 @@ def train_and_evaluate(): #Train model then evaluate model
 
     model_dir = "/home/weston/Desktop/challenge_1/"
     print("model directory = %s" % model_dir)
-    
+
     m = build_estimator(model_dir)
 
     prediction = m.predict(input_fn = lambda: input_fn(df_test))
-    print("xxxxxxxxxxxxxxxxxxxx"+str(prediction)[1])
+    print("xxxxxxxxxx"+str(prediction)[1])
 
 def main(_):
     train_and_evaluate()
+
+sys.argv.clear()
 
 if __name__ == "__main__":
     tf.app.run()

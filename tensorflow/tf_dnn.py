@@ -180,4 +180,4 @@ def main(_):
     train_and_evaluate()
 
 if __name__ == "__main__":
-    tf.app.run()����
+    tf.app.run()    
