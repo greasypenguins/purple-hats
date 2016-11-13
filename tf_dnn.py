@@ -6,7 +6,6 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow as tf
-import numpy as np
 import pandas as pd
 
 tf.logging.set_verbosity(tf.logging.INFO)
@@ -22,11 +21,11 @@ flags.DEFINE_string("train_data", "", "Path to the training data.")
 flags.DEFINE_string("test_data", "", "Path to the test data.")
 
 #Define columns
-COLUMNS = ["encounter_id", "patient_nbr", "race", "gender", "age", "weight", "admission_type_id", "discharge_disposition_id", "admission_source_id", "time_in_hospital", "payer_code", "medical_specialty", "num_lab_procedures", "num_procedures", "num_medications", "number_outpatient", "number_emergency", "number_inpatient", "diag_1", "diag_2", "diag_3", "number_diagnoses", "max_glu_serum", "A1Cresult", "metformin", "repaglinide", "nateglinide", "chlorpropamide", "glimepiride", "acetohexamide", "glipizide", "glyburide", "tolbutamide", "pioglitazone", "rosiglitazone", "acarbose", "miglitol", "troglitazone", "tolazamide", "examide", "citoglipton", "insulin", "glyburide.metformin", "glipizide.metformin", "glimepiride.pioglitazone", "metformin.rosiglitazone", "metformin.pioglitazone", "change", "diabetesMed", "readmitted"]
+COLUMNS = ["encounter_id", "patient_nbr", "race", "gender", "age", "weight", "admission_type_id", "discharge_disposition_id", "admission_source_id", "time_in_hospital", "payer_code", "medical_specialty", "num_lab_procedures", "num_procedures", "num_medications", "number_outpatient", "number_emergency", "number_inpatient", "diag_1", "diag_2", "diag_3", "number_diagnoses", "max_glu_serum", "A1Cresult", "metformin", "repaglinide", "nateglinide", "chlorpropamide", "glimepiride", "acetohexamide", "glipizide", "glyburide", "tolbutamide", "pioglitazone", "rosiglitazone", "acarbose", "miglitol", "troglitazone", "tolazamide", "examide", "citoglipton", "insulin", "glyburidemetformin", "glipizidemetformin", "glimepiridepioglitazone", "metforminrosiglitazone", "metforminpioglitazone", "change", "diabetesMed", "readmitted"]
 
 LABEL_COLUMN = "label"
 
-CATEGORICAL_COLUMNS = ["race", "gender", "age", "weight", "admission_type_id", "discharge_disposition_id", "admission_source_id", "payer_code", "medical_specialty", "diag_1", "diag_2", "diag_3", "max_glu_serum", "A1Cresult", "metformin", "repaglinide", "nateglinide", "chlorpropamide", "glimepiride", "acetohexamide", "glipizide", "glyburide", "tolbutamide", "pioglitazone", "rosiglitazone", "acarbose", "miglitol", "troglitazone", "tolazamide", "examide", "citoglipton", "insulin", "glyburide.metformin", "glipizide.metformin", "glimepiride.pioglitazone", "metformin.rosiglitazone", "metformin.pioglitazone", "change", "diabetesMed"]
+CATEGORICAL_COLUMNS = ["race", "gender", "age", "weight", "admission_type_id", "discharge_disposition_id", "admission_source_id", "payer_code", "medical_specialty", "diag_1", "diag_2", "diag_3", "max_glu_serum", "A1Cresult", "metformin", "repaglinide", "nateglinide", "chlorpropamide", "glimepiride", "acetohexamide", "glipizide", "glyburide", "tolbutamide", "pioglitazone", "rosiglitazone", "acarbose", "miglitol", "troglitazone", "tolazamide", "examide", "citoglipton", "insulin", "glyburidemetformin", "glipizidemetformin", "glimepiridepioglitazone", "metforminrosiglitazone", "metforminpioglitazone", "change", "diabetesMed"]
 
 CONTINUOUS_COLUMNS = ["time_in_hospital", "num_lab_procedures", "num_procedures", "num_medications", "number_outpatient", "number_emergency", "number_inpatient", "number_diagnoses"]
 
@@ -69,11 +68,11 @@ def build_estimator(model_dir): #Build an estimator
     examide = tf.contrib.layers.sparse_column_with_keys(column_name="examide", keys=["Up", "Down", "Steady", "No"])
     citoglipton = tf.contrib.layers.sparse_column_with_keys(column_name="citoglipton", keys=["Up", "Down", "Steady", "No"])
     insulin = tf.contrib.layers.sparse_column_with_keys(column_name="insulin", keys=["Up", "Down", "Steady", "No"])
-    glyburidemetformin = tf.contrib.layers.sparse_column_with_keys(column_name="glyburide.metformin", keys=["Up", "Down", "Steady", "No"])
-    glipizidemetformin = tf.contrib.layers.sparse_column_with_keys(column_name="glipizide.metformin", keys=["Up", "Down", "Steady", "No"])
-    glimepiridepioglitazone = tf.contrib.layers.sparse_column_with_keys(column_name="glimepiride.pioglitazone", keys=["Up", "Down", "Steady", "No"])
-    metforminrosiglitazone = tf.contrib.layers.sparse_column_with_keys(column_name="metformin.rosiglitazone", keys=["Up", "Down", "Steady", "No"])
-    metforminpioglitazone = tf.contrib.layers.sparse_column_with_keys(column_name="metformin.pioglitazone", keys=["Up", "Down", "Steady", "No"])
+    glyburidemetformin = tf.contrib.layers.sparse_column_with_keys(column_name="glyburidemetformin", keys=["Up", "Down", "Steady", "No"])
+    glipizidemetformin = tf.contrib.layers.sparse_column_with_keys(column_name="glipizidemetformin", keys=["Up", "Down", "Steady", "No"])
+    glimepiridepioglitazone = tf.contrib.layers.sparse_column_with_keys(column_name="glimepiridepioglitazone", keys=["Up", "Down", "Steady", "No"])
+    metforminrosiglitazone = tf.contrib.layers.sparse_column_with_keys(column_name="metforminrosiglitazone", keys=["Up", "Down", "Steady", "No"])
+    metforminpioglitazone = tf.contrib.layers.sparse_column_with_keys(column_name="metforminpioglitazone", keys=["Up", "Down", "Steady", "No"])
     change = tf.contrib.layers.sparse_column_with_keys(column_name="change", keys=["Ch", "No"])
     diabetesMed = tf.contrib.layers.sparse_column_with_keys(column_name="diabetesMed", keys=["Yes", "No"])
 
@@ -138,7 +137,7 @@ def build_estimator(model_dir): #Build an estimator
         number_diagnoses
     ]
 
-    m = tf.contrib.learn.DNNClassifier(model_dir=model_dir, feature_columns=deep_columns, hidden_units=[100, 50])
+    m = tf.contrib.learn.DNNClassifier(model_dir=model_dir, feature_columns=deep_columns, hidden_units=[100, 50], n_classes=3)
 
     return m
 
@@ -150,19 +149,22 @@ def input_fn(df): #from tensorflow.org tutorial
     # to the values of that column stored in a tf.SparseTensor.
     categorical_cols = {k: tf.SparseTensor(indices=[[i, 0] for i in range(df[k].size)], values=df[k].values, shape=[df[k].size, 1]) for k in CATEGORICAL_COLUMNS}
     # Merges the two dictionaries into one.
-    feature_cols = dict(continuous_cols.items() | categorical_cols.items())
+    feature_cols = {**continuous_cols, **categorical_cols}
     # Converts the label column into a constant Tensor.
     label = tf.constant(df[LABEL_COLUMN].values)
     # Returns the feature columns and the label.
     return feature_cols, label
 
-def train(): #Train model
+def train_and_evaluate(): #Train model then evaluate model
     df_train = pd.read_csv(tf.gfile.Open(training_data_file), names=COLUMNS, skipinitialspace=True, skiprows=1, engine="python")
+    df_test = pd.read_csv(tf.gfile.Open(test_data_file), names=COLUMNS, skipinitialspace=True, skiprows=1, engine="python")
 
     # remove NaN elements
     df_train = df_train.dropna(how='any', axis=0)
+    df_test = df_test.dropna(how='any', axis=0)
 
     df_train[LABEL_COLUMN] = (df_train["readmitted"].apply(lambda x: "<30" in x)).astype(int)
+    df_test[LABEL_COLUMN] = (df_test["readmitted"].apply(lambda x: "<30" in x)).astype(int)
 
     model_dir = None
     print("model directory = %s" % model_dir)
@@ -170,21 +172,12 @@ def train(): #Train model
     m = build_estimator(model_dir)
     m.fit(input_fn=lambda: input_fn(df_train), steps=FLAGS.train_steps)
 
-def evaluate(): #Evaluate model
-    df_test = pd.read_csv(tf.gfile.Open(test_data_file), names=COLUMNS, skipinitialspace=True, skiprows=1, engine="python")
-
-    # remove NaN elements
-    df_test = df_test.dropna(how='any', axis=0)
-
-    df_test[LABEL_COLUMN] = (df_test["readmitted"].apply(lambda x: "<30" in x)).astype(int)
-
     results = m.evaluate(input_fn=lambda: input_fn(df_test), steps=1)
     for key in sorted(results):
         print("%s: %s" % (key, results[key]))
 
 def main(_):
-    train()
-    evaluate()
+    train_and_evaluate()
 
 if __name__ == "__main__":
     tf.app.run()
