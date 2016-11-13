@@ -7,6 +7,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 import pandas as pd
+import numpy as np
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -153,31 +154,29 @@ def input_fn(df): #from tensorflow.org tutorial
     # Converts the label column into a constant Tensor.
     label = tf.constant(df[LABEL_COLUMN].values)
     # Returns the feature columns and the label.
+
+
+
     return feature_cols, label
 
 def train_and_evaluate(): #Train model then evaluate model
-    df_train = pd.read_csv(tf.gfile.Open(training_data_file), names=COLUMNS, skipinitialspace=True, skiprows=1, engine="python")
-    df_test = pd.read_csv(tf.gfile.Open(test_data_file), names=COLUMNS, skipinitialspace=True, skiprows=1, engine="python")
+    df_test = pd.DataFrame([[22915332, 2345234, "Caucasian", "Female", "[80-90)", "?", 3, 1, 4, 5, "?", "?", 39, 3, 11, 0, 0, 0, "414", "289", "593", 7, "None", "None", "No", "No", "No", "No", "No", "No", "No", "Steady", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes", ">30"]], columns = COLUMNS)
 
     # remove NaN elements
-    df_train = df_train.dropna(how='any', axis=0)
     df_test = df_test.dropna(how='any', axis=0)
 
-    df_train[LABEL_COLUMN] = (df_train["readmitted"].apply(lambda x: "<30" in x)).astype(int)
     df_test[LABEL_COLUMN] = (df_test["readmitted"].apply(lambda x: "<30" in x)).astype(int)
 
     model_dir = "/home/weston/Desktop/challenge_1/"
     print("model directory = %s" % model_dir)
-
+    
     m = build_estimator(model_dir)
-    m.fit(input_fn=lambda: input_fn(df_train), steps=FLAGS.train_steps)
 
-    results = m.evaluate(input_fn=lambda: input_fn(df_test), steps=1)
-    for key in sorted(results):
-        print("%s: %s" % (key, results[key]))
+    prediction = m.predict(input_fn = lambda: input_fn(df_test))
+    print("xxxxxxxxxxxxxxxxxxxx"+str(prediction)[1])
 
 def main(_):
     train_and_evaluate()
 
 if __name__ == "__main__":
-    tf.app.run()    
+    tf.app.run()
