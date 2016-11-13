@@ -45,13 +45,55 @@ $glipizidemetformin = $_POST['glipizidemetformin'];
 $glimepiridepioglitazone = $_POST['glimepiridepioglitazone'];
 $metforminrosiglitazone = $_POST['metforminrosiglitazone'];
 $metforminpioglitazone = $_POST['metforminpioglitazone'];
+$change = $_POST['change'];
+$diabetesMed = $_POST['diabetesMed'];
 
 
-$python = escapeshellcmd('python3 script.py $race $gender $age $weight $admission_type_id $discharge_disposition_id $admission_source_id $time_in_hospital $payer_code $medical_specialty $num_lab_procedures $num_procedures $num_medications $number_outpatient $number_emergency $number_inpatient $diag_1 $diag_2 $diag_3 $number_diagnoses $max_glu_serum $A1Cresult $metformin $repaglinide $nateglinide $chlorpropamide $glimepiride $acetohexamide $glipizide $glyburide $tolazamide $pioglitazone $rosiglitazone $acarbose $miglitol $troglitazone $examide $citoglipton $insulin $glyburidemetformin $glipizidemetformin $glimepiridepioglitazone $metforminpioglitazone $metforminrosiglitazone');
+echo ('<br />');
+
+#$python = escapeshellcmd("python3 /var/www/tensorflow/tf_dnn_eval.py $race $gender $age $weight $admission_type_id $discharge_disposition_id $admission_source_id $time_in_hospital $payer_code $medical_specialty $num_lab_procedures $num_procedures $num_medications $number_outpatient $number_emergency $number_inpatient $diag_1 $diag_2 $diag_3 $number_diagnoses $max_glu_serum $A1Cresult $metformin $repaglinide $nateglinide $chlorpropamide $glimepiride $acetohexamide $glipizide $glyburide $tolazamide $pioglitazone $rosiglitazone $acarbose $miglitol $troglitazone $examide $citoglipton $insulin $glyburidemetformin $glipizidemetformin $glimepiridepioglitazone $metforminpioglitazone $metforminrosiglitazone $change $diabetesMed");
+
+#$python = "python3 /var/www/tensorflow/tf_dnn_eval.py 22915332 1475073 $race $gender $age $weight $admission_type_id $discharge_disposition_id $admission_source_id $time_in_hospital $payer_code $medical_specialty $num_lab_procedures $num_procedures $num_medications $number_outpatient $number_emergency $number_inpatient $diag_1 $diag_2 $diag_3 $number_diagnoses $max_glu_serum $A1Cresult $metformin $repaglinide $nateglinide $chlorpropamide $glimepiride $acetohexamide $glipizide $glyburide $tolazamide $pioglitazone $rosiglitazone $acarbose $miglitol $troglitazone $examide $citoglipton $insulin $glyburidemetformin $glipizidemetformin $glimepiridepioglitazone $metforminpioglitazone $metforminrosiglitazone $change $diabetesMed";
+
+$python = "python3 /var/www/tensorflow/tf_dnn_eval.py $race $gender $age $weight $admission_type_id $discharge_disposition_id $admission_source_id $time_in_hospital $payer_code $medical_specialty $num_lab_procedures $num_procedures $num_medications $number_outpatient $number_emergency $number_inpatient $diag_1 $diag_2 $diag_3 $number_diagnoses $max_glu_serum $A1Cresult $metformin $repaglinide $nateglinide $chlorpropamide $glimepiride $acetohexamide $glipizide $glyburide $tolbutamide $pioglitazone $rosiglitazone $acarbose $miglitol $troglitazone $tolazamide $examide $citoglipton $insulin $glyburidemetformin $glipizidemetformin $glimepiridepioglitazone $metforminrosiglitazone $metforminpioglitazone $change $diabetesMed";
+
+#python3 /var/www/tensorflow/tf_dnn_eval.py Caucasian Male [0-10 ? 1 1 1 546 MC 456 465 654 456 64 65 654 654 654 654 64 >300 >7 Up No No No No No No No No No No Down No No No No No No No No No No Up No Yes
+
+
+#$python = "date";
+
+#47 + file name
+
+echo $python;
+echo ('<br />');
+echo ('<br />');
+echo ('<br />');
 
 $output = shell_exec($python);
 echo $output;
 
+
+$shell = "$output | cut -d'xxxxxxxxxx' -f2";
+$final = shell_exec($shell);
+
+echo ('<br />');
+echo $final;
+echo ('Prediction Completed');
+echo ('<br />');
+echo ('<br />');
+
+if($final=='1')
+{
+	echo ('<h2>Patient is likely to return within 30 days</h2>');
+}
+else if($final=='0')
+{
+	echo ('<h2>Patient is not likely to return within 30 days</h2>');	
+}
+else
+{
+	echo ('<h2>There was an error with the program, ensure all fields are filled out</h2>');	
+}
 
 
 ?>
