@@ -16,7 +16,7 @@ FLAGS = flags.FLAGS
 #Define flags (variables for training)
 flags.DEFINE_string("model_dir", "", "Base directory for output models.")
 flags.DEFINE_string("model_type", "deep", "Valid model types: {'wide', 'deep', 'wide_n_deep'}.")
-flags.DEFINE_integer("train_steps", 1000, "Number of training steps.")
+flags.DEFINE_integer("train_steps", 10, "Number of training steps.")
 flags.DEFINE_string("train_data", "", "Path to the training data.")
 flags.DEFINE_string("test_data", "", "Path to the test data.")
 
@@ -30,7 +30,7 @@ CATEGORICAL_COLUMNS = ["race", "gender", "age", "weight", "admission_type_id", "
 CONTINUOUS_COLUMNS = ["time_in_hospital", "num_lab_procedures", "num_procedures", "num_medications", "number_outpatient", "number_emergency", "number_inpatient", "number_diagnoses"]
 
 training_data_file = "Challenge_1_Training.csv"
-test_data_file = "Challenge_1_Training.csv"
+test_data_file = "Challenge_1_Validation.csv"
 
 
 def build_estimator(model_dir): #Build an estimator
