@@ -47,9 +47,11 @@ $metforminrosiglitazone = $_POST['metforminrosiglitazone'];
 $metforminpioglitazone = $_POST['metforminpioglitazone'];
 
 
-echo $age;
-echo $gender;
-echo $race;
+$python = escapeshellcmd('python3 script.py $race $gender $age $weight $admission_type_id $discharge_disposition_id $admission_source_id $time_in_hospital $payer_code $medical_specialty $num_lab_procedures $num_procedures $num_medications $number_outpatient $number_emergency $number_inpatient $diag_1 $diag_2 $diag_3 $number_diagnoses $max_glu_serum $A1Cresult $metformin $repaglinide $nateglinide $chlorpropamide $glimepiride $acetohexamide $glipizide $glyburide $tolazamide $pioglitazone $rosiglitazone $acarbose $miglitol $troglitazone $examide $citoglipton $insulin $glyburidemetformin $glipizidemetformin $glimepiridepioglitazone $metforminpioglitazone $metforminrosiglitazone');
+
+$output = shell_exec($python);
+echo $output;
+
 
 
 ?>
