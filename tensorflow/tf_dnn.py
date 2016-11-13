@@ -166,7 +166,7 @@ def train_and_evaluate(): #Train model then evaluate model
     df_train[LABEL_COLUMN] = (df_train["readmitted"].apply(lambda x: "<30" in x)).astype(int)
     df_test[LABEL_COLUMN] = (df_test["readmitted"].apply(lambda x: "<30" in x)).astype(int)
 
-    model_dir = "/home/weston/Desktop/challenge_1/"
+    model_dir = "/var/www/tensorflow/"
     print("model directory = %s" % model_dir)
 
     m = build_estimator(model_dir)
