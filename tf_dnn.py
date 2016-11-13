@@ -137,7 +137,7 @@ def build_estimator(model_dir): #Build an estimator
         number_diagnoses
     ]
 
-    m = tf.contrib.learn.DNNClassifier(model_dir=model_dir, feature_columns=deep_columns, hidden_units=[200, 100], n_classes=3)
+    m = tf.contrib.learn.DNNClassifier(model_dir=model_dir, feature_columns=deep_columns, hidden_units=[200, 100, 50], n_classes=3)
 
     return m
 
